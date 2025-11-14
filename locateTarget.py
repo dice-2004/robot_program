@@ -41,14 +41,20 @@ def locateFlag(imInputHSV):
 	return (sHorizontal, sVertical, sSize), imRedBinary
 
 # 敵（赤）
-def locateEnemy(imInputHSV):
-	imGreenBinary = imInputHSV
+# def locateEnemy(imInputHSV):
+# 	imGreenBinary = imInputHSV
 
-	sHorizontal = -1
-	sVertical = -1
-	sSize = -1
+# 	sHorizontal = -1
+# 	sVertical = -1
+# 	sSize = -1
 
-	return (sHorizontal, sVertical, sSize), imGreenBinary
-# 障害物（青）
-def locateTarget(imInputHSV):
-    pass
+# 	return (sHorizontal, sVertical, sSize), imGreenBinary
+# # 障害物（青）
+# def locateTarget(imInputHSV):
+# 	imBlueBinary = imInputHSV
+
+# 	sHorizontal = -1
+# 	sVertical = -1
+# 	sSize = -1
+
+# 	return (sHorizontal, sVertical, sSize), imBlueBinary

@@ -6,7 +6,7 @@ RIGHT = 3
 LEFT = 4
 
 # ステートマシン -------------------------------------------------
-def stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo):
+def stateMachine(sState, vFlagInfo):#, vEnemyInfo,vTargetInfo):
 
     sHorizontalCenter = 160
     sPositionThreshHigh = 15
