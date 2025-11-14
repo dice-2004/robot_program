@@ -39,7 +39,7 @@ def stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo, vCylinderInfo):
             elif vTargetInfo[0] > sHorizontalCenter + sPositionThreshHigh * 2:
                 sState = FORWARD
         
-        if vFlagInfo[0] != -1:
+        elif vFlagInfo[0] != -1:
             if vFlagInfo[0] > sHorizontalCenter + sPositionThreshHigh:
                 sState = RIGHT
             elif vFlagInfo[0] < sHorizontalCenter - sPositionThreshHigh:
@@ -57,7 +57,7 @@ def stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo, vCylinderInfo):
             elif vTargetInfo[0] > sHorizontalCenter + sPositionThreshHigh * 2:
                 sState = FORWARD
         
-        if vFlagInfo[0] != -1:
+        elif vFlagInfo[0] != -1:
             if vFlagInfo[0] < sHorizontalCenter + sPositionThreshLow:
                 sState = FORWARD
             elif vFlagInfo[2] < sSizeThreshLow or vFlagInfo[2] > sSizeThreshHigh or vFlagInfo[0] == -1:
@@ -73,7 +73,7 @@ def stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo, vCylinderInfo):
             elif vTargetInfo[0] > sHorizontalCenter + sPositionThreshHigh * 2:
                 sState = FORWARD
         
-        if vFlagInfo[0] != -1:
+        elif vFlagInfo[0] != -1:
             if vFlagInfo[0] > sHorizontalCenter - sPositionThreshLow:
                 sState = FORWARD
             elif vFlagInfo[2] < sSizeThreshLow or vFlagInfo[2] > sSizeThreshHigh or vFlagInfo[0] == -1:
