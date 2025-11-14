@@ -31,6 +31,8 @@ sFrame = 0
 imGray = np.ndarray((sHeight, sWidth))
 imRedBinary = np.ndarray((sHeight, sWidth))
 imGreenBinary = np.ndarray((sHeight, sWidth))
+imBlueBinary = np.ndarray((sHeight, sWidth))
+imYellowBinary = np.ndarray((sHeight, sWidth))
 
 # ステート初期化 -------------------------------------------------
 sState = sm.IDLE
@@ -89,7 +91,7 @@ while videoCap.isOpened() :
 		vTargetInfo, imBlueBinary = lt.locateTarget(imGaussianHSV)
 		vCylinderInfo, imGreenBinary = lt.locateCylinder(imGaussianHSV)
 		sPreviousState = sState
-		sState = sm.stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo)
+		sState = sm.stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo, vCylinderInfo)
 
 		if sState == sm.IDLE:
 			ClsDmc.stop()
