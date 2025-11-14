@@ -20,10 +20,10 @@ def stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo, vCylinderInfo):
         # Targetが視野に入っている場合,優先して対応
         if vTargetInfo[0] != -1:
             # Targetが右に無い場合、左に旋回
-            if vTargetInfo[0] < sHorizontalCenter + sPositionThreshHigh * 2:
+            if vTargetInfo[0] < sHorizontalCenter + sPositionThreshHigh * 3:
                 sState = LEFT
             # Targetが右にある場合、直進
-            elif vTargetInfo[0] > sHorizontalCenter + sPositionThreshHigh * 2:
+            elif vTargetInfo[0] > sHorizontalCenter + sPositionThreshHigh * 3:
                 sState = FORWARD
         
         elif vFlagInfo[0] != -1 and vFlagInfo[2] < sSizeThreshHigh:
@@ -33,10 +33,10 @@ def stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo, vCylinderInfo):
         # Targetが視野に入っている場合,優先して対応
         if vTargetInfo[0] != -1:
             # Targetが右に無い場合、左に旋回
-            if vTargetInfo[0] < sHorizontalCenter + sPositionThreshHigh * 2:
+            if vTargetInfo[0] < sHorizontalCenter + sPositionThreshHigh * 3:
                 sState = LEFT
             # Targetが右にある場合、直進
-            elif vTargetInfo[0] > sHorizontalCenter + sPositionThreshHigh * 2:
+            elif vTargetInfo[0] > sHorizontalCenter + sPositionThreshHigh * 3:
                 sState = FORWARD
         
         elif vFlagInfo[0] != -1:
@@ -51,10 +51,10 @@ def stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo, vCylinderInfo):
         #targetが視野に入っている場合,優先して対応
         if vTargetInfo[0] != -1:
             #targetが右に無い場合、左に旋回
-            if vTargetInfo[0] < sHorizontalCenter + sPositionThreshHigh * 2:
+            if vTargetInfo[0] < sHorizontalCenter + sPositionThreshHigh * 3:
                 sState = LEFT
             #targetが右にある場合、直進
-            elif vTargetInfo[0] > sHorizontalCenter + sPositionThreshHigh * 2:
+            elif vTargetInfo[0] > sHorizontalCenter + sPositionThreshHigh * 3:
                 sState = FORWARD
         
         elif vFlagInfo[0] != -1:
@@ -67,10 +67,10 @@ def stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo, vCylinderInfo):
         #targetが視野に入っている場合,優先して対応
         if vTargetInfo[0] != -1:
             #targetが右に無い場合、左に旋回
-            if vTargetInfo[0] < sHorizontalCenter + sPositionThreshHigh * 2:
+            if vTargetInfo[0] < sHorizontalCenter + sPositionThreshHigh * 3:
                 sState = LEFT
             #targetが右にある場合、直進
-            elif vTargetInfo[0] > sHorizontalCenter + sPositionThreshHigh * 2:
+            elif vTargetInfo[0] > sHorizontalCenter + sPositionThreshHigh * 3:
                 sState = FORWARD
         
         elif vFlagInfo[0] != -1:
