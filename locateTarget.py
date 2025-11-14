@@ -10,6 +10,32 @@ def preprocess(imInput):
 
 # ゴール（黄）
 def locateFlag(imInputHSV):
+	# 対象色の定義（黄の場合）
+	vMinHSV = np.array([20,127,240])
+	vMaxHSV = np.array([35,255,255])
+	imYellow = cv2.inRange(imInputHSV, vMinHSV, vMaxHSV)
+
+	# 対象色のエリア画像の作成
+	imYellowBinary = imYellow / 255
+
+	# 対象色エリア（最も縦に長いもの）の水平位置の割り出し
+	vSumYellowVertical = np.sum(imYellowBinary, axis=0)
+	sMaxIndex = vSumYellowVertical.argmax()
+
+	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
+	if vSumYellowVertical[sMaxIndex] > 5:
+		sHorizontal = sMaxIndex
+		sVertical = -1
+		sSize = vSumYellowVertical[sMaxIndex]
+	else:
+		sHorizontal = -1
+		sVertical = -1
+		sSize = -1
+	
+	return (sHorizontal, sVertical, sSize), imYellowBinary
+
+# 敵（赤）
+def locateEnemy(imInputHSV):
 	# 対象色の定義１（赤の場合）
 	vMinHSV = np.array([0,180,0])
 	vMaxHSV = np.array([10,255,255])
@@ -40,15 +66,24 @@ def locateFlag(imInputHSV):
 
 	return (sHorizontal, sVertical, sSize), imRedBinary
 
-# 敵（赤）
-def locateEnemy(imInputHSV):
-	imGreenBinary = imInputHSV
-
-	sHorizontal = -1
-	sVertical = -1
-	sSize = -1
-
-	return (sHorizontal, sVertical, sSize), imGreenBinary
 # 障害物（青）
 def locateTarget(imInputHSV):
-    pass
+	# 対象色の定義（青の場合）
+	vMinHSV = np.array([90,180,0])
+	vMNaxHSV = np.array([150,255,255])
+	imBlue = cv2.inRange(imInputHSV, vMinHSV, vMNaxHSV)
+	# 対象色のエリア画像の作成
+	imBlueBinary = imBlue / 255
+	# 対象色エリア（最も縦に長いもの）の水平位置の割り出し
+	vSumBlueVertical = np.sum(imBlueBinary, axis=0)
+	sMaxIndex = vSumBlueVertical.argmax()
+	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
+	if vSumBlueVertical[sMaxIndex] > 5:
+		sHorizontal = sMaxIndex
+		sVertical = -1
+		sSize = vSumBlueVertical[sMaxIndex]
+	else:
+		sHorizontal = -1
+		sVertical = -1
+		sSize = -1
+	return (sHorizontal, sVertical, sSize), imBlueBinary
