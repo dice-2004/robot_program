@@ -22,6 +22,10 @@ def stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo, vCylinderInfo):
             # Targetが右に無い場合、左に旋回
             if vTargetInfo[0] < sHorizontalCenter + sPositionThreshHigh:
                 sState = LEFT
+            # Targetが右にある場合、直進
+            elif vTargetInfo[0] > sHorizontalCenter + sPositionThreshHigh:
+                sState = FORWARD
+        
         elif vFlagInfo[0] != -1 and vFlagInfo[2] < sSizeThreshHigh:
             sState = FORWARD
     elif sState == FORWARD:
@@ -33,6 +37,7 @@ def stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo, vCylinderInfo):
             # Targetが右にある場合、直進
             elif vTargetInfo[0] > sHorizontalCenter + sPositionThreshHigh:
                 sState = FORWARD
+        
         elif vFlagInfo[0] > sHorizontalCenter + sPositionThreshHigh:
             sState = RIGHT
         elif vFlagInfo[0] < sHorizontalCenter - sPositionThreshHigh:
@@ -48,6 +53,7 @@ def stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo, vCylinderInfo):
             #targetが右にある場合、直進
             elif vTargetInfo[0] > sHorizontalCenter + sPositionThreshHigh:
                 sState = FORWARD
+        
         elif vFlagInfo[0] < sHorizontalCenter + sPositionThreshLow:
             sState = FORWARD
         elif vFlagInfo[2] < sSizeThreshLow or vFlagInfo[2] > sSizeThreshHigh or vFlagInfo[0] == -1:
@@ -61,6 +67,7 @@ def stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo, vCylinderInfo):
             #targetが右にある場合、直進
             elif vTargetInfo[0] > sHorizontalCenter + sPositionThreshHigh:
                 sState = FORWARD
+        
         elif vFlagInfo[0] > sHorizontalCenter - sPositionThreshLow:
             sState = FORWARD
         elif vFlagInfo[2] < sSizeThreshLow or vFlagInfo[2] > sSizeThreshHigh or vFlagInfo[0] == -1:
