@@ -66,6 +66,7 @@ def locateEnemy(imInputHSV):
 
 	return (sHorizontal, sVertical, sSize), imRedBinary
 
+
 # 障害物（青）
 def locateTarget(imInputHSV):
 	# 対象色の定義（青の場合）
@@ -112,3 +113,4 @@ def locateCylinder(imInputHSV):
 		sSize = -1
 
 	return (sHorizontal, sVertical, sSize), imGreenBinary
+
