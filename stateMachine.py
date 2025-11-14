@@ -40,7 +40,15 @@ def stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo, vCylinderInfo):
         elif vFlagInfo[2] < sSizeThreshLow or vFlagInfo[2] > sSizeThreshHigh or vFlagInfo[0] == -1:
             sState = IDLE
     elif sState == RIGHT:
-        if vFlagInfo[0] < sHorizontalCenter + sPositionThreshLow:
+        #targetが視野に入っている場合,優先して対応
+        if vTargetInfo[0] != -1:
+            #targetが右に無い場合、左に旋回
+            if vTargetInfo[0] < sHorizontalCenter + sPositionThreshHigh:
+                sState = LEFT
+            #targetが右にある場合、直進
+            elif vTargetInfo[0] > sHorizontalCenter + sPositionThreshHigh:
+                sState = FORWARD
+        elif vFlagInfo[0] < sHorizontalCenter + sPositionThreshLow:
             sState = FORWARD
         elif vFlagInfo[2] < sSizeThreshLow or vFlagInfo[2] > sSizeThreshHigh or vFlagInfo[0] == -1:
             sState = IDLE
