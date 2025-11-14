@@ -33,6 +33,8 @@ end_timeout = 180
 imGray = np.ndarray((sHeight, sWidth))
 imRedBinary = np.ndarray((sHeight, sWidth))
 imGreenBinary = np.ndarray((sHeight, sWidth))
+imBlueBinary = np.ndarray((sHeight, sWidth))
+imYellowBinary = np.ndarray((sHeight, sWidth))
 
 # ステート初期化 -------------------------------------------------
 sState = sm.IDLE
@@ -91,11 +93,14 @@ while videoCap.isOpened() :
 	elif sMode == 2:
 		imDisplay = imResize
 		imGaussianHSV = lt.preprocess(imResize)
-		vFlagInfo, imRedBinary = lt.locateFlag(imGaussianHSV)
-		# vEnemyInfo, imGreenBinary = lt.locateEnemy(imGaussianHSV)
-		# vTargetInfo, imBlueBinary = lt.locateTarget(imGaussianHSV)
+
+		vFlagInfo, imYellowBinary = lt.locateFlag(imGaussianHSV)
+		vEnemyInfo, imRedBinary = lt.locateEnemy(imGaussianHSV)
+		vTargetInfo, imBlueBinary = lt.locateTarget(imGaussianHSV)
+		vCylinderInfo, imGreenBinary = lt.locateCylinder(imGaussianHSV)
 		sPreviousState = sState
-		sState = sm.stateMachine(sState, vFlagInfo)#, vEnemyInfo,vTargetInfo)
+		sState = sm.stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo, vCylinderInfo)
+
 
 		if sState == sm.IDLE:
 			ClsDmc.stop()
@@ -148,6 +153,8 @@ while videoCap.isOpened() :
 		cv2.imshow('input', imDisplay)
 		#cv2.imshow('red', imRedBinary)
 		#cv2.imshow('green', imGreenBinary)
+		#cv2.imshow('blue', imBlueBinary)
+		#cv2.imshow('yellow', imYellowBinary)
 
 	# コマンドの処理 --------------------------------------------
 	if sKey == ord('q'):
