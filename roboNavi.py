@@ -38,7 +38,13 @@ imYellowBinary = np.ndarray((sHeight, sWidth))
 
 # ステート初期化 -------------------------------------------------
 sState = sm.IDLE
+flag=0
 
+# 軌道修正用の変数 -----------------------------------------------
+last_turn_state = None  # 最後に曲がった方向（LEFT or RIGHT）
+turn_start_time = None  # 旋回開始時刻
+correction_mode = False  # 修正モード中かどうか
+correction_end_time = None  # 修正終了時刻
 # Dual motor controller初期設定 ---------------------------------
 vPortsDrive = [23, 22, 25, 9, 10]  #AIN1, AIN2, BIN1, BIN2, STBY
 vPortsPWM = [12, 13]
@@ -67,12 +73,13 @@ while videoCap.isOpened() :
 
 	# 動作モードの選択 -------------------------------------------
 	if sMode == 1:
+
 		imDisplay = imResize
 		# 前
 		if sKey == ord('u'):
 			ClsDmc.stop()
 			ClsDmc.driveMotor(0, 0, 100) # 右タイヤ
-			ClsDmc.driveMotor(1, 0, 97) # 左タイヤ
+			ClsDmc.driveMotor(1, 0, 99) # 左タイヤ
 		# 止まる
 		elif sKey == ord('m'):
 			ClsDmc.stop()
@@ -80,12 +87,12 @@ while videoCap.isOpened() :
 		elif sKey == ord('h'):
 			ClsDmc.stop()
 			ClsDmc.driveMotor(0, 0, 100) # 右タイヤ
-			ClsDmc.driveMotor(1, 0, 87)  # 左タイヤ
+			ClsDmc.driveMotor(1, 0, 89)  # 左タイヤ
 
 		# 左
 		elif sKey == ord('k'):
 			ClsDmc.stop()
-			ClsDmc.driveMotor(0, 0, 93)  #右タイヤ
+			ClsDmc.driveMotor(0, 0, 91)  #右タイヤ
 			ClsDmc.driveMotor(1, 0, 100) #左タイヤ
 		# 後
 		elif sKey == ord('j'):
@@ -97,33 +104,71 @@ while videoCap.isOpened() :
 			print('1000 frames have passed')
 
 	elif sMode == 2:
+		if flag == 0:
+			flag = 1
 		imDisplay = imResize
-		imGaussianHSV = lt.preprocess(imResize)
+		imGaussianHSV, imGaussianRGB = lt.preprocess(imResize)
 		vFlagInfo, imYellowBinary = lt.locateFlag(imGaussianHSV)
 		vEnemyInfo, imRedBinary = lt.locateEnemy(imGaussianHSV)
 		vTargetInfo, imBlueBinary = lt.locateTarget(imGaussianHSV)
-		vCylinderInfo, imGreenBinary = lt.locateCylinder(imGaussianHSV)
+		vCylinderInfo, imGreenBinary = lt.locateCylinder(imGaussianRGB)
 		sPreviousState = sState
-		sState = sm.stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo, vCylinderInfo)
+
+		# 軌道修正モード
+		if correction_mode:
+			# 修正時間が終了したか確認
+			if time.time() >= correction_end_time:
+				correction_mode = False
+				sState = sm.FORWARD
+			# まだ修正中
+			# sStateは前回のまま（修正方向を維持）
+		else:
+			sState = sm.stateMachine(sState, vFlagInfo, vEnemyInfo, vTargetInfo, vCylinderInfo)
+
+			# 旋回開始の検知
+			if sState == sm.LEFT or sState == sm.RIGHT:
+				if last_turn_state is None:  # 旋回開始
+					# 障害物（青・緑・赤）が検出されている場合のみ記録
+					# 黄色のみの場合は追従なので軌道修正しない
+					if (vTargetInfo[0] != -1 or vCylinderInfo[0] != -1 or vEnemyInfo[0] != -1):
+						last_turn_state = sState
+						turn_start_time = time.time()
+
+			# 旋回終了の検知（FORWARDに戻った）
+			elif sState == sm.FORWARD and last_turn_state is not None:
+				turn_duration = time.time() - turn_start_time
+
+				# 反対方向に同じ時間だけ修正
+				if last_turn_state == sm.LEFT:
+					sState = sm.RIGHT
+				elif last_turn_state == sm.RIGHT:
+					sState = sm.LEFT
+
+				correction_mode = True
+				correction_end_time = time.time() + turn_duration
+
+				# リセット
+				last_turn_state = None
+				turn_start_time = None
 
 
 		if sState == sm.IDLE:
-			# print("IDLE")
+			print("IDLE")
 			ClsDmc.stop()
 		elif sState == sm.FORWARD:
-			# print("FORWARD")
+			print("FORWARD")
 			ClsDmc.stop()
 			ClsDmc.driveMotor(0, 0, 100) # 右タイヤ
-			ClsDmc.driveMotor(1, 0, 97) # 左タイヤ
+			ClsDmc.driveMotor(1, 0, 99) # 左タイヤ
 		elif sState == sm.LEFT:
-			# print("LEFT")
+			print("LEFT")
 			ClsDmc.stop()
 			ClsDmc.driveMotor(0, 0, 100) # 右タイヤ
-			ClsDmc.driveMotor(1, 0, 87)  # 左タイヤ
+			ClsDmc.driveMotor(1, 0, 89)  # 左タイヤ
 		elif sState == sm.RIGHT:
-			# print("RIGHT")
+			print("RIGHT")
 			ClsDmc.stop()
-			ClsDmc.driveMotor(0, 0, 93)  #右タイヤ
+			ClsDmc.driveMotor(0, 0, 91)  #右タイヤ
 			ClsDmc.driveMotor(1, 0, 100) #左タイヤ
 
 		if vFlagInfo[0] != -1:

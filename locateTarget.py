@@ -6,7 +6,10 @@ def preprocess(imInput):
 	imInputHSV = cv2.cvtColor(imInput, cv2.COLOR_BGR2HSV)
 	imGaussianHSV = cv2.blur(imInputHSV, (3, 3))
 
-	return imGaussianHSV
+	# RGB用に平滑化した画像も返す
+	imGaussianRGB = cv2.blur(imInput, (3, 3))
+
+	return imGaussianHSV, imGaussianRGB
 
 # ゴール（黄）
 def locateFlag(imInputHSV):
@@ -24,12 +27,12 @@ def locateFlag(imInputHSV):
 
 	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
 	if vSumYellowVertical[sMaxIndex] > 50:
-		print("targetd yellow")
+		# print("targetd yellow")
 		sHorizontal = sMaxIndex
 		sVertical = -1
 		sSize = vSumYellowVertical[sMaxIndex]
 	else:
-		print("non targetd yellow")
+		# print("non targetd yellow")
 		sHorizontal = -1
 		sVertical = -1
 		sSize = -1
@@ -58,12 +61,12 @@ def locateEnemy(imInputHSV):
 
 	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
 	if vSumRedVertical[sMaxIndex] > 50:
-		print("targetd red")
+		# print("targetd red")
 		sHorizontal = sMaxIndex
 		sVertical = -1
 		sSize = vSumRedVertical[sMaxIndex]
 	else:
-		print("non targetd red")
+		# print("non targetd red")
 		sHorizontal = -1
 		sVertical = -1
 		sSize = -1
@@ -84,22 +87,23 @@ def locateTarget(imInputHSV):
 	sMaxIndex = vSumBlueVertical.argmax()
 	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
 	if vSumBlueVertical[sMaxIndex] > 25:
-		print("targetd blue")
+		# print("targetd blue")
 		sHorizontal = sMaxIndex
 		sVertical = -1
 		sSize = vSumBlueVertical[sMaxIndex]
 	else:
-		print("non targetd blue")
+		# print("non targetd blue")
 		sHorizontal = -1
 		sVertical = -1
 		sSize = -1
 	return (sHorizontal, sVertical, sSize), imBlueBinary
 
-def locateCylinder(imInputHSV):
-	# 対象色の定義（緑の場合）
-	vMinHSV = np.array([40,170,0])
-	vMaxHSV = np.array([50,255,255])
-	imGreen = cv2.inRange(imInputHSV, vMinHSV, vMaxHSV)
+def locateCylinder(imInputRGB):
+	# 対象色の定義（緑の場合 - RGB）
+	# BGR形式なので、[B, G, R]の順
+	vMinRGB = np.array([0, 100, 0])    # 最小値: B=0, G=100, R=0
+	vMaxRGB = np.array([100, 255, 100]) # 最大値: B=100, G=255, R=100
+	imGreen = cv2.inRange(imInputRGB, vMinRGB, vMaxRGB)
 
 	# 対象色のエリア画像の作成
 	imGreenBinary = imGreen / 255
@@ -110,12 +114,12 @@ def locateCylinder(imInputHSV):
 
 	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
 	if vSumGreenVertical[sMaxIndex] > 50:
-		print("targetd green")
+		# print("targetd green")
 		sHorizontal = sMaxIndex
 		sVertical = -1
 		sSize = vSumGreenVertical[sMaxIndex]
 	else:
-		print("non targetd green")
+		# print("non targetd green")
 		sHorizontal = -1
 		sVertical = -1
 		sSize = -1
