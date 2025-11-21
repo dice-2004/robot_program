@@ -68,24 +68,30 @@ while videoCap.isOpened() :
 	# 動作モードの選択 -------------------------------------------
 	if sMode == 1:
 		imDisplay = imResize
+		# 前
 		if sKey == ord('u'):
 			ClsDmc.stop()
-			ClsDmc.driveMotor(0, 0, 80)
-			ClsDmc.driveMotor(1, 0, 80)
+			ClsDmc.driveMotor(0, 0, 100) # 右タイヤ
+			ClsDmc.driveMotor(1, 0, 97) # 左タイヤ
+		# 止まる
 		elif sKey == ord('m'):
 			ClsDmc.stop()
+		# 右
 		elif sKey == ord('h'):
 			ClsDmc.stop()
-			ClsDmc.driveMotor(0, 0, 80)
-			ClsDmc.driveMotor(1, 1, 80)
+			ClsDmc.driveMotor(0, 0, 100) # 右タイヤ
+			ClsDmc.driveMotor(1, 0, 87)  # 左タイヤ
+
+		# 左
 		elif sKey == ord('k'):
 			ClsDmc.stop()
-			ClsDmc.driveMotor(0, 1, 80)
-			ClsDmc.driveMotor(1, 0, 80)
+			ClsDmc.driveMotor(0, 0, 93)  #右タイヤ
+			ClsDmc.driveMotor(1, 0, 100) #左タイヤ
+		# 後
 		elif sKey == ord('j'):
 			ClsDmc.stop()
-			ClsDmc.driveMotor(0, 1, 80)
-			ClsDmc.driveMotor(1, 1, 80)
+			ClsDmc.driveMotor(0, 1, 100)
+			ClsDmc.driveMotor(1, 1, 97)
 
 		if sFrame == 999:
 			print('1000 frames have passed')
@@ -107,23 +113,27 @@ while videoCap.isOpened() :
 		elif sState == sm.FORWARD:
 			# print("FORWARD")
 			ClsDmc.stop()
-			ClsDmc.driveMotor(0, 0, 100) # 左タイヤ
-			ClsDmc.driveMotor(1, 0, 100) # 右タイヤ
+			ClsDmc.driveMotor(0, 0, 100) # 右タイヤ
+			ClsDmc.driveMotor(1, 0, 97) # 左タイヤ
 		elif sState == sm.LEFT:
 			# print("LEFT")
 			ClsDmc.stop()
-			ClsDmc.driveMotor(0, 0, 90)  #左タイヤ
-			ClsDmc.driveMotor(1, 0, 100) #右タイヤ
+			ClsDmc.driveMotor(0, 0, 100) # 右タイヤ
+			ClsDmc.driveMotor(1, 0, 87)  # 左タイヤ
 		elif sState == sm.RIGHT:
 			# print("RIGHT")
 			ClsDmc.stop()
-			ClsDmc.driveMotor(0, 0, 100) # 左タイヤ
-			ClsDmc.driveMotor(1, 0, 90)  # 右タイヤ
+			ClsDmc.driveMotor(0, 0, 93)  #右タイヤ
+			ClsDmc.driveMotor(1, 0, 100) #左タイヤ
 
 		if vFlagInfo[0] != -1:
 			cv2.line(imDisplay, (vFlagInfo[0], 1), (vFlagInfo[0], sHeight), (0,0,255))
-		# if vEnemyInfo[0] != -1:
-		# 	cv2.line(imDisplay, (vEnemyInfo[0], 1), (vEnemyInfo[0], sHeight), (0,255,0))
+		if vEnemyInfo[0] != -1:
+			cv2.line(imDisplay, (vEnemyInfo[0], 1), (vEnemyInfo[0], sHeight), (0,255,0))
+		if vTargetInfo[0] != -1:
+			cv2.line(imDisplay, (vTargetInfo[0], 1), (vTargetInfo[0], sHeight), (0,255,0))
+		if vCylinderInfo[0] != -1:
+			cv2.line(imDisplay, (vCylinderInfo[0], 1), (vCylinderInfo[0], sHeight), (0,255,0))
 
 		if sPreviousState != sState:
 			print('current state is :', sState)
@@ -154,10 +164,10 @@ while videoCap.isOpened() :
 	# 画像の表示 ----------------------------------------------
 	if sFrame % sDisplayRate == 0:
 		cv2.imshow('input', imDisplay)
-		cv2.imshow('red', imRedBinary)
-		cv2.imshow('green', imGreenBinary)
-		cv2.imshow('blue', imBlueBinary)
-		cv2.imshow('yellow', imYellowBinary)
+		# cv2.imshow('red', imRedBinary)
+		# cv2.imshow('green', imGreenBinary)
+		# cv2.imshow('blue', imBlueBinary)
+		# cv2.imshow('yellow', imYellowBinary)
 
 	# コマンドの処理 --------------------------------------------
 	if sKey == ord('q'):
