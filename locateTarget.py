@@ -6,7 +6,10 @@ def preprocess(imInput):
 	imInputHSV = cv2.cvtColor(imInput, cv2.COLOR_BGR2HSV)
 	imGaussianHSV = cv2.blur(imInputHSV, (3, 3))
 
-	return imGaussianHSV
+	# RGB用に平滑化した画像も返す
+	imGaussianRGB = cv2.blur(imInput, (3, 3))
+
+	return imGaussianHSV, imGaussianRGB
 
 # ゴール（黄）
 def locateFlag(imInputHSV):
@@ -95,14 +98,11 @@ def locateTarget(imInputHSV):
 		sSize = -1
 	return (sHorizontal, sVertical, sSize), imBlueBinary
 
-def locateCylinder(imInputHSV):
-	# BGR画像をRGBに変換
-	imInputRGB = cv2.cvtColor(imInputBGR, cv2.COLOR_BGR2RGB)
-	
-	# 対象色の定義（緑の場合、RGB形式）
-	# 緑の特徴: G成分が高く、R・B成分が低い
-	vMinRGB = np.array([0, 100, 0])    # (R_min, G_min, B_min)
-	vMaxRGB = np.array([100, 255, 100])  # (R_max, G_max, B_max)
+def locateCylinder(imInputRGB):
+	# 対象色の定義（緑の場合 - RGB）
+	# BGR形式なので、[B, G, R]の順
+	vMinRGB = np.array([0, 100, 0])    # 最小値: B=0, G=100, R=0
+	vMaxRGB = np.array([100, 255, 100]) # 最大値: B=100, G=255, R=100
 	imGreen = cv2.inRange(imInputRGB, vMinRGB, vMaxRGB)
 
 	# 対象色のエリア画像の作成
