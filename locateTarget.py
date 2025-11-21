@@ -24,14 +24,16 @@ def locateFlag(imInputHSV):
 
 	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
 	if vSumYellowVertical[sMaxIndex] > 5:
+		print("targetd yellow")
 		sHorizontal = sMaxIndex
 		sVertical = -1
 		sSize = vSumYellowVertical[sMaxIndex]
 	else:
+		print("non targetd yellow")
 		sHorizontal = -1
 		sVertical = -1
 		sSize = -1
-	
+
 	return (sHorizontal, sVertical, sSize), imYellowBinary
 
 # 敵（赤）
@@ -56,10 +58,12 @@ def locateEnemy(imInputHSV):
 
 	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
 	if vSumRedVertical[sMaxIndex] > 5:
+		print("targetd red")
 		sHorizontal = sMaxIndex
 		sVertical = -1
 		sSize = vSumRedVertical[sMaxIndex]
 	else:
+		print("non targetd red")
 		sHorizontal = -1
 		sVertical = -1
 		sSize = -1
@@ -80,10 +84,12 @@ def locateTarget(imInputHSV):
 	sMaxIndex = vSumBlueVertical.argmax()
 	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
 	if vSumBlueVertical[sMaxIndex] > 5:
+		print("targetd blue")
 		sHorizontal = sMaxIndex
 		sVertical = -1
 		sSize = vSumBlueVertical[sMaxIndex]
 	else:
+		print("non targetd blue")
 		sHorizontal = -1
 		sVertical = -1
 		sSize = -1
@@ -94,23 +100,24 @@ def locateCylinder(imInputHSV):
 	vMinHSV = np.array([40,180,0])
 	vMaxHSV = np.array([46,255,255])
 	imGreen = cv2.inRange(imInputHSV, vMinHSV, vMaxHSV)
-	
+
 	# 対象色のエリア画像の作成
 	imGreenBinary = imGreen / 255
 
 	# 対象色エリア（最も縦に長いもの）の水平位置の割り出し
 	vSumGreenVertical = np.sum(imGreenBinary, axis=0)
 	sMaxIndex = vSumGreenVertical.argmax()
-	
+
 	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
 	if vSumGreenVertical[sMaxIndex] > 5:
+		print("targetd green")
 		sHorizontal = sMaxIndex
 		sVertical = -1
 		sSize = vSumGreenVertical[sMaxIndex]
 	else:
+		print("non targetd green")
 		sHorizontal = -1
 		sVertical = -1
 		sSize = -1
 
 	return (sHorizontal, sVertical, sSize), imGreenBinary
-
