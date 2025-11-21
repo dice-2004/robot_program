@@ -116,20 +116,18 @@ while videoCap.isOpened() :
 
 		# 軌道修正モード
 		if correction_mode:
-			# 修正時間が終了したか確認
+
 			if time.time() >= correction_end_time:
+				# 修正モード中
 				correction_mode = False
 				sState = sm.FORWARD
-			# まだ修正中
-			# sStateは前回のまま（修正方向を維持）
 		else:
 			sState = sm.stateMachine(sState, vFlagInfo, vEnemyInfo, vTargetInfo, vCylinderInfo)
 
 			# 旋回開始の検知
 			if sState == sm.LEFT or sState == sm.RIGHT:
 				if last_turn_state is None:  # 旋回開始
-					# 障害物（青・緑・赤）が検出されている場合のみ記録
-					# 黄色のみの場合は追従なので軌道修正しない
+					# 青・緑・赤が検出されている場合のみ記録
 					if (vTargetInfo[0] != -1 or vCylinderInfo[0] != -1 or vEnemyInfo[0] != -1):
 						last_turn_state = sState
 						turn_start_time = time.time()
