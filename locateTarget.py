@@ -96,10 +96,14 @@ def locateTarget(imInputHSV):
 	return (sHorizontal, sVertical, sSize), imBlueBinary
 
 def locateCylinder(imInputHSV):
-	# 対象色の定義（緑の場合）
-	vMinHSV = np.array([40,170,0])
-	vMaxHSV = np.array([50,255,255])
-	imGreen = cv2.inRange(imInputHSV, vMinHSV, vMaxHSV)
+	# BGR画像をRGBに変換
+	imInputRGB = cv2.cvtColor(imInputBGR, cv2.COLOR_BGR2RGB)
+	
+	# 対象色の定義（緑の場合、RGB形式）
+	# 緑の特徴: G成分が高く、R・B成分が低い
+	vMinRGB = np.array([0, 100, 0])    # (R_min, G_min, B_min)
+	vMaxRGB = np.array([100, 255, 100])  # (R_max, G_max, B_max)
+	imGreen = cv2.inRange(imInputRGB, vMinRGB, vMaxRGB)
 
 	# 対象色のエリア画像の作成
 	imGreenBinary = imGreen / 255
