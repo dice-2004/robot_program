@@ -83,7 +83,7 @@ def locateTarget(imInputHSV):
 	vSumBlueVertical = np.sum(imBlueBinary, axis=0)
 	sMaxIndex = vSumBlueVertical.argmax()
 	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
-	if vSumBlueVertical[sMaxIndex] > 50:
+	if vSumBlueVertical[sMaxIndex] > 25:
 		print("targetd blue")
 		sHorizontal = sMaxIndex
 		sVertical = -1
@@ -97,8 +97,8 @@ def locateTarget(imInputHSV):
 
 def locateCylinder(imInputHSV):
 	# 対象色の定義（緑の場合）
-	vMinHSV = np.array([40,180,0])
-	vMaxHSV = np.array([46,255,255])
+	vMinHSV = np.array([40,170,0])
+	vMaxHSV = np.array([50,255,255])
 	imGreen = cv2.inRange(imInputHSV, vMinHSV, vMaxHSV)
 
 	# 対象色のエリア画像の作成
