@@ -86,7 +86,7 @@ def locateTarget(imInputHSV):
 	vSumBlueVertical = np.sum(imBlueBinary, axis=0)
 	sMaxIndex = vSumBlueVertical.argmax()
 	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
-	if vSumBlueVertical[sMaxIndex] > 25:
+	if vSumBlueVertical[sMaxIndex] > 5:
 		print("targetd blue")
 		sHorizontal = sMaxIndex
 		sVertical = -1
@@ -113,7 +113,7 @@ def locateCylinder(imInputRGB):
 	sMaxIndex = vSumGreenVertical.argmax()
 
 	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
-	if vSumGreenVertical[sMaxIndex] > 50:
+	if vSumGreenVertical[sMaxIndex] > 30:
 		print("targetd green")
 		sHorizontal = sMaxIndex
 		sVertical = -1
