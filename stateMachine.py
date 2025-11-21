@@ -6,7 +6,9 @@ RIGHT = 3
 LEFT = 4
 
 # ステートマシン -------------------------------------------------
+
 def stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo, vCylinderInfo):
+
 
     #Infoの書式: (sHorizontal(水平位置), sVertical(垂直位置※今回は常に-1), sSize(縦の長さ))
     #Flag:ゴール　enemy:よける対象　target:左側を通らなければならない対象　cylinder:円柱（よける対象）
