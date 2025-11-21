@@ -93,7 +93,6 @@ while videoCap.isOpened() :
 	elif sMode == 2:
 		imDisplay = imResize
 		imGaussianHSV = lt.preprocess(imResize)
-
 		vFlagInfo, imYellowBinary = lt.locateFlag(imGaussianHSV)
 		vEnemyInfo, imRedBinary = lt.locateEnemy(imGaussianHSV)
 		vTargetInfo, imBlueBinary = lt.locateTarget(imGaussianHSV)
@@ -106,8 +105,8 @@ while videoCap.isOpened() :
 			ClsDmc.stop()
 		elif sState == sm.FORWARD:
 			ClsDmc.stop()
-			ClsDmc.driveMotor(0, 0, 100)
-			ClsDmc.driveMotor(1, 0, 100)
+			ClsDmc.driveMotor(0, 0, 100) # 左タイヤ
+			ClsDmc.driveMotor(1, 0, 100) # 右タイヤ
 		elif sState == sm.LEFT:
 			ClsDmc.stop()
 			ClsDmc.driveMotor(0, 0, 90)  #左タイヤ
