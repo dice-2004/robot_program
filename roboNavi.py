@@ -102,16 +102,20 @@ while videoCap.isOpened() :
 
 
 		if sState == sm.IDLE:
+			# print("IDLE")
 			ClsDmc.stop()
 		elif sState == sm.FORWARD:
+			# print("FORWARD")
 			ClsDmc.stop()
 			ClsDmc.driveMotor(0, 0, 100) # 左タイヤ
 			ClsDmc.driveMotor(1, 0, 100) # 右タイヤ
 		elif sState == sm.LEFT:
+			# print("LEFT")
 			ClsDmc.stop()
 			ClsDmc.driveMotor(0, 0, 90)  #左タイヤ
 			ClsDmc.driveMotor(1, 0, 100) #右タイヤ
 		elif sState == sm.RIGHT:
+			# print("RIGHT")
 			ClsDmc.stop()
 			ClsDmc.driveMotor(0, 0, 100) # 左タイヤ
 			ClsDmc.driveMotor(1, 0, 90)  # 右タイヤ

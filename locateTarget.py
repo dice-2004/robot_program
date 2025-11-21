@@ -11,7 +11,7 @@ def preprocess(imInput):
 # ゴール（黄）
 def locateFlag(imInputHSV):
 	# 対象色の定義（黄の場合）
-	vMinHSV = np.array([20,127,240])
+	vMinHSV = np.array([20,127,0])
 	vMaxHSV = np.array([35,255,255])
 	imYellow = cv2.inRange(imInputHSV, vMinHSV, vMaxHSV)
 
@@ -23,7 +23,7 @@ def locateFlag(imInputHSV):
 	sMaxIndex = vSumYellowVertical.argmax()
 
 	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
-	if vSumYellowVertical[sMaxIndex] > 5:
+	if vSumYellowVertical[sMaxIndex] > 50:
 		print("targetd yellow")
 		sHorizontal = sMaxIndex
 		sVertical = -1
@@ -57,7 +57,7 @@ def locateEnemy(imInputHSV):
 	sMaxIndex = vSumRedVertical.argmax()
 
 	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
-	if vSumRedVertical[sMaxIndex] > 5:
+	if vSumRedVertical[sMaxIndex] > 50:
 		print("targetd red")
 		sHorizontal = sMaxIndex
 		sVertical = -1
@@ -83,7 +83,7 @@ def locateTarget(imInputHSV):
 	vSumBlueVertical = np.sum(imBlueBinary, axis=0)
 	sMaxIndex = vSumBlueVertical.argmax()
 	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
-	if vSumBlueVertical[sMaxIndex] > 5:
+	if vSumBlueVertical[sMaxIndex] > 50:
 		print("targetd blue")
 		sHorizontal = sMaxIndex
 		sVertical = -1
@@ -109,7 +109,7 @@ def locateCylinder(imInputHSV):
 	sMaxIndex = vSumGreenVertical.argmax()
 
 	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
-	if vSumGreenVertical[sMaxIndex] > 5:
+	if vSumGreenVertical[sMaxIndex] > 50:
 		print("targetd green")
 		sHorizontal = sMaxIndex
 		sVertical = -1
