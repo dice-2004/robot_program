@@ -26,7 +26,7 @@ def locateFlag(imInputHSV):
 	sMaxIndex = vSumYellowVertical.argmax()
 
 	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
-	if vSumYellowVertical[sMaxIndex] > 50:
+	if vSumYellowVertical[sMaxIndex] > 25:
 		# print("targetd yellow")
 		sHorizontal = sMaxIndex
 		sVertical = -1
@@ -60,7 +60,7 @@ def locateEnemy(imInputHSV):
 	sMaxIndex = vSumRedVertical.argmax()
 
 	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
-	if vSumRedVertical[sMaxIndex] > 50:
+	if vSumRedVertical[sMaxIndex] > 25:
 		# print("targetd red")
 		sHorizontal = sMaxIndex
 		sVertical = -1
@@ -77,7 +77,7 @@ def locateEnemy(imInputHSV):
 # 障害物（青）
 def locateTarget(imInputHSV):
 	# 対象色の定義（青の場合）
-	vMinHSV = np.array([90,180,0])
+	vMinHSV = np.array([90,180,128])
 	vMNaxHSV = np.array([150,255,255])
 	imBlue = cv2.inRange(imInputHSV, vMinHSV, vMNaxHSV)
 	# 対象色のエリア画像の作成
@@ -86,7 +86,7 @@ def locateTarget(imInputHSV):
 	vSumBlueVertical = np.sum(imBlueBinary, axis=0)
 	sMaxIndex = vSumBlueVertical.argmax()
 	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
-	if vSumBlueVertical[sMaxIndex] > 10:
+	if vSumBlueVertical[sMaxIndex] > 5:
 		# print("targetd blue")
 		sHorizontal = sMaxIndex
 		sVertical = -1
