@@ -77,7 +77,7 @@ def locateEnemy(imInputHSV):
 # 障害物（青）
 def locateTarget(imInputHSV):
 	# 対象色の定義（青の場合）
-	vMinHSV = np.array([90,180,128])
+	vMinHSV = np.array([90,100,90])
 	vMNaxHSV = np.array([150,255,255])
 	imBlue = cv2.inRange(imInputHSV, vMinHSV, vMNaxHSV)
 	# 対象色のエリア画像の作成

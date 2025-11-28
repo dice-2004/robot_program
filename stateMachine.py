@@ -81,7 +81,7 @@ def stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo, vCylinderInfo):
             elif vFlagInfo[0] < sHorizontalCenter - sPositionThreshHigh:
                 sState = LEFT
             elif vFlagInfo[2] < sSizeThreshLow or vFlagInfo[2] > sSizeThreshHigh or vFlagInfo[0] == -1:
-                sState = IDLE
+                sState = FORWARD
 
 
     elif sState == RIGHT:
@@ -115,7 +115,7 @@ def stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo, vCylinderInfo):
             if vFlagInfo[0] < sHorizontalCenter + sPositionThreshLow:
                 sState = FORWARD
             elif vFlagInfo[2] < sSizeThreshLow or vFlagInfo[2] > sSizeThreshHigh or vFlagInfo[0] == -1:
-                sState = IDLE
+                sState = FORWARD
 
     elif sState == LEFT:
         #targetが視野に入っている場合,優先して対応
@@ -148,6 +148,6 @@ def stateMachine(sState, vFlagInfo, vEnemyInfo,vTargetInfo, vCylinderInfo):
             if vFlagInfo[0] > sHorizontalCenter - sPositionThreshLow:
                 sState = FORWARD
             elif vFlagInfo[2] < sSizeThreshLow or vFlagInfo[2] > sSizeThreshHigh or vFlagInfo[0] == -1:
-                sState = IDLE
+                sState = FORWARD
 
     return sState
