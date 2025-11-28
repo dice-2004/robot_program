@@ -25,11 +25,8 @@ def locateFlag(imInputHSV):
 	vSumYellowVertical = np.sum(imYellowBinary, axis=0)
 	sMaxIndex = vSumYellowVertical.argmax()
 
-	# デバッグ: 検出した最大画素数を表示
-	print(f"[Yellow] Max pixels: {vSumYellowVertical[sMaxIndex]:.0f}, Threshold: 50")
-
-	# 対象色エリアの縦の長さが50画素よりも大きい場合、ターゲットに設定
-	if vSumYellowVertical[sMaxIndex] > 50:
+	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
+	if vSumYellowVertical[sMaxIndex] > 25:
 		# print("targetd yellow")
 		sHorizontal = sMaxIndex
 		sVertical = -1
@@ -62,11 +59,8 @@ def locateEnemy(imInputHSV):
 	vSumRedVertical = np.sum(imRedBinary, axis=0)
 	sMaxIndex = vSumRedVertical.argmax()
 
-	# デバッグ: 検出した最大画素数を表示
-	print(f"[Red] Max pixels: {vSumRedVertical[sMaxIndex]:.0f}, Threshold: 50")
-
-	# 対象色エリアの縦の長さが50画素よりも大きい場合、ターゲットに設定
-	if vSumRedVertical[sMaxIndex] > 50:
+	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
+	if vSumRedVertical[sMaxIndex] > 25:
 		# print("targetd red")
 		sHorizontal = sMaxIndex
 		sVertical = -1
@@ -91,10 +85,8 @@ def locateTarget(imInputHSV):
 	# 対象色エリア（最も縦に長いもの）の水平位置の割り出し
 	vSumBlueVertical = np.sum(imBlueBinary, axis=0)
 	sMaxIndex = vSumBlueVertical.argmax()
-	# デバッグ: 検出した最大画素数を表示
-	print(f"[Blue] Max pixels: {vSumBlueVertical[sMaxIndex]:.0f}, Threshold: 10")
-	# 対象色エリアの縦の長さが10画素よりも大きい場合、ターゲットに設定
-	if vSumBlueVertical[sMaxIndex] > 10:
+	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
+	if vSumBlueVertical[sMaxIndex] > 5:
 		# print("targetd blue")
 		sHorizontal = sMaxIndex
 		sVertical = -1
@@ -120,10 +112,7 @@ def locateCylinder(imInputRGB):
 	vSumGreenVertical = np.sum(imGreenBinary, axis=0)
 	sMaxIndex = vSumGreenVertical.argmax()
 
-	# デバッグ: 検出した最大画素数を表示
-	print(f"[Green] Max pixels: {vSumGreenVertical[sMaxIndex]:.0f}, Threshold: 30")
-
-	# 対象色エリアの縦の長さが30画素よりも大きい場合、ターゲットに設定
+	# 対象色エリアの縦の長さが5画素よりも大きい場合、ターゲットに設定
 	if vSumGreenVertical[sMaxIndex] > 30:
 		# print("targetd green")
 		sHorizontal = sMaxIndex
